@@ -1,0 +1,41 @@
+// resources/sass/theme.scss
+
+// 1. Import Bootstrap (Jika Menggunakan Bootstrap)
+@import 'bootstrap/scss/bootstrap';
+
+// 2. Variable Warna (Colors)
+// Definisikan variable warna utama, sekunder, aksen, dll.
+$primary: #007bff;
+$secondary: #6c757d;
+$success: #28a745;
+$danger: #dc3545;
+$warning: #ffc107;
+$info: #17a2b8;
+$light: #f8f9fa;
+$dark: #343a40;
+
+$theme-colors: (
+  "primary":    $primary,
+  "secondary":  $secondary,
+  "success":    $success,
+  "danger":     $danger,
+  "warning":    $warning,
+  "info":       $info,
+  "light":      $light,
+  "dark":       $dark
+);
+
+
+body{
+    background: E7E7E7 !important;
+}
+
+.welcome{
+  margin-top: 10em;
+}
+.g-gradient {
+  font-weight: bold;
+  background: -webkit-linear-gradient(#535351, #5D4DD5);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
