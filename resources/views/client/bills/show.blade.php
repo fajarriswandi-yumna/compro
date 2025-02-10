@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.app') {{-- Anda bisa menggunakan layout yang berbeda jika ingin --}}
 
 @section('title', 'Detail Tagihan')
 
@@ -15,13 +15,6 @@
                                 <hr /> <br />
                             </div>
                             <div class="d-flex flex-column align-items-end">
-                                <div class="btn-group mb-3" role="group" aria-label="Invoice actions">
-                                    <a href="{{ route('admin.bills.download-pdf', $bill->id) }}" class="btn btn-outline-secondary" target="_blank">VIEW PDF</a>
-                                    <form action="{{ route('admin.bills.send-email', $bill->id) }}" method="POST" class="d-inline-block"> {{-- Ubah jadi form POST --}}
-                                        @csrf {{-- Tambahkan CSRF token --}}
-                                        <button type="submit" class="btn btn-outline-primary">SEND EMAIL</button> {{-- Ubah type jadi submit --}}
-                                    </form>
-                                </div>
                                 <h4 class="invoice-id">Invoice</h4>
                                 <h5 class="invoice-number">#{{ $bill->no_invoice }}</h5>
                             </div>
@@ -74,10 +67,7 @@
                             @endif
                         </div>
                     </div>
-                    <div class="mt-4 text-center">
-                        <a href="{{ route('admin.bills.edit', $bill->id) }}" class="btn btn-warning">Edit</a>
-                        <a href="{{ route('admin.bills.index') }}" class="btn btn-secondary">Kembali ke Daftar Tagihan</a>
-                    </div>
+                    {{-- Tombol Edit dan Kembali Dihilangkan untuk Tampilan Klien --}}
                 </div>
             </div>
         </div>
@@ -86,6 +76,7 @@
 @endsection
 
 <style>
+    /* Style CSS bisa sama dengan admin.bills.show.blade.php */
     .invoice-container {
         border: 1px solid #ccc;
         padding: 20px;

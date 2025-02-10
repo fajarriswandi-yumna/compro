@@ -20,6 +20,9 @@ Route::get('/', function () {
     return view('welcome'); // Atau view homepage company profile Anda
 });
 
+// Route untuk tampilan tagihan klien (TANPA LOGIN)
+Route::get('/client/bills/{bill}', [BillController::class, 'showClient'])->name('client.bills.show');
+
 Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::get('/dashboard', function () {
         return view('admin.dashboard');
@@ -32,7 +35,11 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::resource('clients', ClientController::class)->names('admin.clients'); // Resource routes untuk ClientController di namespace Admin
     Route::get('/posts/search', [App\Http\Controllers\Admin\PostController::class, 'search'])->name('admin.posts.search'); // Route untuk search
     Route::resource('/registrations', RegistrationController::class)->names('admin.registrations');
-    Route::resource('bills', BillController::class)->names('admin.bills'); 
+    
+    Route::get('/bills/{bill}/download-pdf', [BillController::class, 'downloadPdf'])->name('admin.bills.download-pdf'); // Route untuk download pdf
+    Route::post('/bills/{bill}/send-email', [BillController::class, 'sendEmail'])->name('admin.bills.send-email'); // Route untuk kirim email (POST)
+    Route::resource('bills', BillController::class)->names('admin.bills');
+    
 });
 
 Route::middleware('auth')->group(function () { // Gunakan middleware 'auth' agar hanya user yang login bisa mengakses
