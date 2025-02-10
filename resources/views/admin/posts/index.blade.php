@@ -19,7 +19,15 @@
 
             <!-- Search -->
             <div class="mb-3">
-                <input type="text" class="form-control" id="searchInput" placeholder="Cari Judul Postingan...">
+                <form action="{{ route('admin.posts.index') }}" method="GET">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Cari artikel" name="search" value="{{ request('search') }}">
+                        <button class="btn btn-primary" type="submit" id="button-search">Cari</button>
+                        @if(request('search'))
+                        <a href="{{ route('admin.posts.index') }}" class="btn btn-secondary" id="button-clear">Clear</a>
+                        @endif
+                    </div>
+                </form>
             </div>
 
             <div class="table-responsive">

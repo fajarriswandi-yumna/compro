@@ -10,16 +10,18 @@ use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
-    /**
-     * Menampilkan daftar semua postingan blog.
-     *
-     * @return \Illuminate\View\View
-     */
-    public function index()
+    public function index(Request $request) // Tambahkan parameter Request $request
     {
-        //$posts = Post::with('category')->latest()->get(); // Ambil semua data postingan, eager load relasi 'category', urutkan dari terbaru
-        $posts = Post::with('category')->latest()->paginate(2); // Ambil semua data postingan, eager load relasi 'category', urutkan dari terbaru
-        return view('admin.posts.index', compact('posts')); // Kirim data posts ke view 'admin.posts.index'
+        $search = $request->input('search'); // Ambil kata kunci pencarian dari request
+
+        $posts = Post::latest()
+            ->when($search, function ($query, $search) { // Kondisi pencarian jika $search tidak kosong
+                return $query->where('title', 'like', '%' . $search . '%')
+                    ->orWhere('content', 'like', '%' . $search . '%');
+            })
+            ->paginate(3);
+
+        return view('admin.posts.index', compact('posts'));
     }
 
     public function search(Request $request)
