@@ -52,15 +52,6 @@ class Post extends Model
             $post->slug = Str::slug($post->title); // Buat slug otomatis saat updating (sebelum menyimpan perubahan data)
         });
     }
-
-    /**
-     * **TAMBAHKAN METHOD INI: getRouteKeyName()**
-     *
-     * Menentukan kolom yang digunakan sebagai route key.
-     * Dalam kasus ini, kita ingin menggunakan kolom 'slug' sebagai route key.
-     *
-     * @return string
-     */
     public function getRouteKeyName()
     {
         return 'id'; // Instruksikan Laravel untuk menggunakan kolom 'slug' sebagai route key
