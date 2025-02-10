@@ -44,6 +44,7 @@
                         </li>
                         <li class="nav-item"><a class="nav-link" href="{{ route('admin.users.index') }}">Users</a></li>
                         <li class="nav-item"><a class="nav-link" href="{{ route('admin.clients.index') }}">Clients</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ route('admin.bills.index') }}">Bills</a></li>
                         <li class="nav-item"><a class="nav-link" href="{{ route('admin.registrations.index') }}">Registrations</a></li>
                     </ul>
 

@@ -10,6 +10,7 @@ use App\Http\Controllers\PublicBlogController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Admin\ClientController;
+use App\Http\Controllers\Admin\BillController;
 
 // Route Otentikasi (Login, Register, dll.) - Jika belum ada, bisa generate menggunakan Breeze atau Jetstream atau buat manual.
 Auth::routes(); // Jika menggunakan Auth::routes() default Laravel
@@ -31,6 +32,7 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::resource('clients', ClientController::class)->names('admin.clients'); // Resource routes untuk ClientController di namespace Admin
     Route::get('/posts/search', [App\Http\Controllers\Admin\PostController::class, 'search'])->name('admin.posts.search'); // Route untuk search
     Route::resource('/registrations', RegistrationController::class)->names('admin.registrations');
+    Route::resource('bills', BillController::class)->names('admin.bills'); 
 });
 
 Route::middleware('auth')->group(function () { // Gunakan middleware 'auth' agar hanya user yang login bisa mengakses
