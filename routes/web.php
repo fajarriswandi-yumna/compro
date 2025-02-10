@@ -9,6 +9,7 @@ use App\Http\Controllers\RegistrationPublicController;
 use App\Http\Controllers\PublicBlogController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Admin\ClientController;
 
 // Route Otentikasi (Login, Register, dll.) - Jika belum ada, bisa generate menggunakan Breeze atau Jetstream atau buat manual.
 Auth::routes(); // Jika menggunakan Auth::routes() default Laravel
@@ -26,9 +27,8 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::resource('/users', UserController::class)->names('admin.users');
     Route::resource('/categories', CategoryController::class)->names('admin.categories');
     Route::resource('/posts', PostController::class)->names('admin.posts');
-    // Route DETAIL POSTINGAN (SLUG-BASED) - TAMBAHKAN DI SINI, DI LUAR resource route '/posts'
     Route::get('/posts/{slug}', [App\Http\Controllers\Admin\PostController::class, 'showBySlug'])->name('admin.posts.detail');
-
+    Route::resource('clients', ClientController::class)->names('admin.clients'); // Resource routes untuk ClientController di namespace Admin
     Route::get('/posts/search', [App\Http\Controllers\Admin\PostController::class, 'search'])->name('admin.posts.search'); // Route untuk search
     Route::resource('/registrations', RegistrationController::class)->names('admin.registrations');
 });
