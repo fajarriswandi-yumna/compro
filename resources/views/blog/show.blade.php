@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-    <title>{{ $post->title }}</title> {{-- Judul halaman diambil dari judul artikel --}}
+    <title>{{ $post->title }} - Aksara</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
+
 <body>
     <div class="container">
         <div class="row justify-content-center">
@@ -11,6 +13,15 @@
                 <div class="card">
                     <div class="card-body">
                         <h1>{{ $post->title }}</h1> {{-- Judul artikel --}}
+                        <div>
+                            @if($post->featured_image_path)
+                            <div>
+                                <img src="{{ asset('storage/' . $post->featured_image_path) }}" alt="Gambar Unggulan" style="max-width: 300px;">
+                            </div>
+                            @else
+                            <p>-</p>
+                            @endif
+                        </div>
                         <hr>
                         <p class="text-muted">Diterbitkan pada: {{ $post->created_at->format('d M Y') }}</p> {{-- Tanggal publikasi --}}
                         <hr>
@@ -26,4 +37,5 @@
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>

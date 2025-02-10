@@ -23,7 +23,7 @@
                                 <br>
                                 <div class="d-flex">
                                     <iconify-icon icon="solar:user-broken" width="24" height="24"></iconify-icon>
-                                    <p>20</p>
+                                    <p>{{ $totalRegistrations }}</p>  {{-- Ganti dengan variabel totalRegistrations --}}
                                 </div>
                             </div>
                         </div>
@@ -34,8 +34,8 @@
                                 <p>Total Artikel yang kamu publikasikan</p>
                                 <br>
                                 <div class="d-flex">
-                                    <iconify-icon icon="solar:user-broken" width="24" height="24"></iconify-icon>
-                                    <p>20</p>
+                                    <iconify-icon icon="solar:book-bold" width="24" height="24"></iconify-icon> {{-- Ganti icon --}}
+                                    <p>{{ $totalPosts }}</p> {{-- Ganti dengan variabel totalPosts --}}
                                 </div>
                             </div>
                         </div>
@@ -46,8 +46,8 @@
                                 <p>Total Kunjungan bulan ini di website</p>
                                 <br>
                                 <div class="d-flex">
-                                    <iconify-icon icon="solar:user-broken" width="24" height="24"></iconify-icon>
-                                    <p>20</p>
+                                    <iconify-icon icon="solar:eye-bold" width="24" height="24"></iconify-icon> {{-- Ganti icon --}}
+                                    <p>20</p> {{-- Biarkan tetap statis atau ganti dengan data kunjungan jika ada --}}
                                 </div>
                             </div>
                         </div>
@@ -58,8 +58,8 @@
                                 <p>Total pengguna di website kamu</p>
                                 <br>
                                 <div class="d-flex">
-                                    <iconify-icon icon="solar:user-broken" width="24" height="24"></iconify-icon>
-                                    <p>20</p>
+                                    <iconify-icon icon="solar:users-bold" width="24" height="24"></iconify-icon> {{-- Ganti icon --}}
+                                    <p>{{ $totalUsers }}</p> {{-- Ganti dengan variabel totalUsers --}}
                                 </div>
                             </div>
                         </div>
