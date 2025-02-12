@@ -10,6 +10,7 @@ use App\Http\Controllers\PublicBlogController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Admin\ClientController;
+use App\Http\Controllers\ClientRegisterController;
 use App\Http\Controllers\Admin\BillController;
 
 // Route Otentikasi (Login, Register, dll.) - Jika belum ada, bisa generate menggunakan Breeze atau Jetstream atau buat manual.
@@ -22,6 +23,14 @@ Route::get('/', function () {
 
 // Route untuk tampilan tagihan klien (TANPA LOGIN)
 Route::get('/client/bills/{bill}', [BillController::class, 'showClient'])->name('client.bills.show');
+
+// Routes Pendaftaran Klien Publik (TANPA LOGIN)
+Route::get('/client/register', [ClientRegisterController::class, 'showRegistrationForm'])->name('client.registration.form');
+
+Route::post('/client/register', [ClientRegisterController::class, 'register'])->name('client.registration.submit');
+Route::get('/client/verify-email/{token}', [ClientRegisterController::class, 'verify'])->name('client.registration.verify'); // <-- UBAH 'verifyEmail' menjadi 'verify'
+Route::get('/client/verification-success', [ClientRegisterController::class, 'showVerificationSuccess'])->name('client.registration.success');
+Route::get('/client/registration-pending', [ClientRegisterController::class, 'showRegistrationPending'])->name('client.registration.pending');
 
 Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::get('/dashboard', function () {

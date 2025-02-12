@@ -6,10 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\Bill;
 use App\Models\Client;
 use Illuminate\Http\Request;
-use Barryvdh\DomPDF\Facade\Pdf as PDF; // Import Facade PDF
-use Illuminate\Support\Facades\Mail; // Import Facade Mail
-use App\Mail\InvoiceMail; // Import Mail Class InvoiceMail
-
+use Barryvdh\DomPDF\Facade\Pdf as PDF;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\InvoiceMail;
 
 class BillController extends Controller
 {
@@ -18,16 +17,24 @@ class BillController extends Controller
      */
     public function index()
     {
-        $bills = Bill::with('client')->latest()->paginate(10); // Eager load relationship 'client'
+        $bills = Bill::with('client')->latest()->paginate(10);
         return view('admin.bills.index', compact('bills'));
     }
+
+    // HAPUS METHOD autocompleteClientName() KARENA TIDAK DIPERLUKAN LAGI
+    // public function autocompleteClientName(Request $request)
+    // {
+    //     // ... (kode autocomplete sebelumnya) ...
+    // }
 
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
-        $clients = Client::all(); // Ambil semua data client untuk dropdown di form
+        // AMBIL SEMUA DATA KLIEN DARI DATABASE
+        $clients = Client::all();
+        // KIRIM DATA $clients KE VIEW 'admin.bills.create'
         return view('admin.bills.create', compact('clients'));
     }
 
@@ -36,16 +43,22 @@ class BillController extends Controller
      */
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
-            'client_id' => 'required|exists:clients,id', // Pastikan client_id ada di tabel clients
-            'subscribe_type' => 'required|in:Bulanan,Tahunan', // Validasi subscribe_type harus Bulanan atau Tahunan
-            'payment_status' => 'nullable|in:Paid,Not Paid', // Validasi payment_status (opsional), boleh Paid atau Not Paid
+        $request->validate([
+            'client_id' => 'required|exists:clients,id',
+            'payment_status' => 'required|in:Unpaid,Paid,Pending',
+            // 'subscribe_type' => 'required|in:Bulanan,Tahunan', // HAPUS validasi subscribe_type
+            'amount' => 'required|numeric|min:0',
         ]);
 
-        $validatedData['no_invoice'] = Bill::generateNoInvoice(); // Generate nomor invoice otomatis
-        $validatedData['amount'] = Bill::calculateAmount($validatedData['subscribe_type']); // Hitung amount berdasarkan tipe berlangganan
+        $client = Client::findOrFail($request->client_id);
 
-        Bill::create($validatedData);
+        $bill = new Bill();
+        $bill->no_invoice = Bill::generateNoInvoice();
+        $bill->client()->associate($client);
+        // $bill->subscribe_type = $request->subscribe_type; // HAPUS set subscribe_type
+        $bill->payment_status = $request->payment_status;
+        $bill->amount = Bill::calculateAmount($client); // KIRIM OBJEK CLIENT ke calculateAmount()
+        $bill->save();
 
         return redirect()->route('admin.bills.index')->with('success', 'Tagihan berhasil ditambahkan.');
     }
@@ -55,17 +68,14 @@ class BillController extends Controller
      */
     public function show(Bill $bill)
     {
+        $bill->load('client');
         return view('admin.bills.show', compact('bill'));
     }
 
-    public function downloadPdf(Bill $bill) // Route model binding untuk Bill $bill
+    public function downloadPdf(Bill $bill)
     {
-        // $pdf = PDF::loadView('admin.bills.pdf-template', compact('bill')); // Load view default size PDF
-        $pdf = PDF::loadView('admin.bills.pdf-template', compact('bill'))->setPaper('a4', 'landscape'); // Load view dengan ukuran kertas A4 landscape
-
-        // Opsi download: inline (tampilkan di browser) atau attachment (download file)
-        // return $pdf->stream('invoice-' . $bill->no_invoice . '.pdf'); // Inline di browser
-        return $pdf->download('invoice-' . $bill->no_invoice . '.pdf'); // Download file
+        $pdf = PDF::loadView('admin.bills.pdf-template', compact('bill'))->setPaper('a4', 'landscape');
+        return $pdf->download('invoice-' . $bill->no_invoice . '.pdf');
     }
 
     /**
@@ -73,8 +83,7 @@ class BillController extends Controller
      */
     public function sendEmail(Bill $bill)
     {
-        Mail::to($bill->client->email)->send(new InvoiceMail($bill)); // Kirim email menggunakan Mail Facade dan Mail Class
-
+        Mail::to($bill->client->email)->send(new InvoiceMail($bill));
         return redirect()->route('admin.bills.show', $bill->id)->with('success', 'Invoice berhasil dikirim ke email client.');
     }
     /**
@@ -90,7 +99,7 @@ class BillController extends Controller
      */
     public function edit(Bill $bill)
     {
-        $clients = Client::all(); // Ambil semua data client untuk dropdown di form edit
+        $clients = Client::all();
         return view('admin.bills.edit', compact('bill', 'clients'));
     }
 
@@ -100,12 +109,12 @@ class BillController extends Controller
     public function update(Request $request, Bill $bill)
     {
         $validatedData = $request->validate([
-            'client_id' => 'required|exists:clients,id', // Pastikan client_id ada di tabel clients
-            'subscribe_type' => 'required|in:Bulanan,Tahunan', // Validasi subscribe_type harus Bulanan atau Tahunan
-            'payment_status' => 'nullable|in:Paid,Not Paid', // Validasi payment_status (opsional), boleh Paid atau Not Paid
+            'client_id' => 'required|exists:clients,id',
+            // 'subscribe_type' => 'required|in:Bulanan,Tahunan', // HAPUS validasi subscribe_type dari sini
+            'payment_status' => 'nullable|in:Paid,Not Paid',
         ]);
 
-        $validatedData['amount'] = Bill::calculateAmount($validatedData['subscribe_type']); // Hitung ulang amount jika subscribe_type diubah
+        // $validatedData['amount'] = Bill::calculateAmount($validatedData['subscribe_type']); // HAPUS hitung ulang amount berdasarkan subscribe_type di sini
 
         $bill->update($validatedData);
 

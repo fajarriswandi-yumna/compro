@@ -11,9 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('bills', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+        Schema::table('clients', function (Blueprint $table) {
+            $table->boolean('is_active')->default(false)->after('password'); // Tambahkan kolom is_active setelah kolom password
         });
     }
 
@@ -22,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('bills');
+        Schema::table('clients', function (Blueprint $table) {
+            $table->dropColumn('is_active'); // Hapus kolom is_active saat rollback
+        });
     }
 };

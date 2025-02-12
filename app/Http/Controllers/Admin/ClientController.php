@@ -24,7 +24,7 @@ class ClientController extends Controller
                     ->orWhere('email', 'like', '%' . $search . '%')    // Atau di kolom email
                     ->orWhere('no_phone', 'like', '%' . $search . '%'); // Atau di kolom no_phone
             })
-            ->paginate(3);
+            ->paginate(5);
 
         return view('admin.clients.index', compact('clients'));
     }

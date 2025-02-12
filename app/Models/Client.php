@@ -30,9 +30,13 @@ class Client extends Model
         'no_phone',
         'photo_profile',
         'institution',
-        'subscribe_status',
+        'subscribe_type', // Ini diperbaiki dari `subscribe_status`
         'subscription_start_date',
         'subscription_end_date',
+        'email_verification_token', // <-- TAMBAHKAN BARIS INI: PENTING!!
+        'password', // <-- TAMBAHKAN BARIS INI: Jika ingin fillable (pertimbangkan keamanan)
+        'is_active', // <-- TAMBAHKAN BARIS INI: Jika ingin fillable (pertimbangkan keamanan)
+        'email_verified_at', // <-- TAMBAHKAN BARIS INI: Jika ingin fillable (pertimbangkan keamanan)
     ];
 
     /**
@@ -45,6 +49,7 @@ class Client extends Model
      */
     protected $casts = [
         'subscription_start_date' => 'date', // Cast menjadi tipe date
-        'subscription_end_date' => 'date',   // Cast menjadi tipe date
+        'subscription_end_date' => 'date',    // Cast menjadi tipe date
+        'email_verified_at' => 'datetime', // Sebaiknya cast juga ke datetime
     ];
 }
