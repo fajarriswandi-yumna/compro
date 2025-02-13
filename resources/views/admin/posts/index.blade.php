@@ -1,11 +1,40 @@
 @extends('layouts.app')
 @section('title', 'Blog')
 @section('content')
-<div class="container mt-5">
+<div class="container">
 
-    <div class="card shadow mb-4">
-        <div class="card-header py-3 d-flex justify-content-between">
-            <h6 class="m-0 font-weight-bold">Daftar Postingan Blog</h6>
+
+    <div class="d-flex justify-content-between align-items-center">
+        <h1 class="titlePage mb-4">Blogs</h1>
+        <div>breadcrumb</div>
+    </div>
+
+    <!-- <div class="mt-5 mb-5">
+        <div class="card">
+            <div class="card-header">Header</div>
+            <div class="card-body">Body</div>
+            <div class="card-footer">Footer</div>
+        </div>
+    </div> -->
+
+    <!-- Start Card Container -->
+    <div class="card mb-4">
+        <div class="card-header d-flex justify-content-between">
+            <!-- Search -->
+            <div class="mb-3">
+                <form action="{{ route('admin.posts.index') }}" method="GET">
+                    <div class="input-group">
+                        <span class="input-group-text" id="search-icon">
+                            <iconify-icon icon="ic:round-search" width="24" height="24"></iconify-icon>
+                        </span>
+                        <input type="text" class="form-control group-text me-2" placeholder="Cari artikel" name="search" value="{{ request('search') }}" aria-describedby="search-icon">
+                        <!-- <button class="btn btn-primary" type="submit" id="button-search">Cari</button> -->
+                        @if(request('search'))
+                        <a href="{{ route('admin.posts.index') }}" class="btn btn-secondary" id="button-clear">Clear</a>
+                        @endif
+                    </div>
+                </form>
+            </div>
             <a href="{{ route('admin.posts.create') }}" class="btn btn-primary btn-sm mb-3">
                 <i class="fas fa-plus"></i> Tambah Postingan
             </a>
@@ -17,18 +46,7 @@
             </div>
             @endif
 
-            <!-- Search -->
-            <div class="mb-3">
-                <form action="{{ route('admin.posts.index') }}" method="GET">
-                    <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Cari artikel" name="search" value="{{ request('search') }}">
-                        <button class="btn btn-primary" type="submit" id="button-search">Cari</button>
-                        @if(request('search'))
-                        <a href="{{ route('admin.posts.index') }}" class="btn btn-secondary" id="button-clear">Clear</a>
-                        @endif
-                    </div>
-                </form>
-            </div>
+
 
             <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -98,6 +116,7 @@
             {{ $posts->links('vendor.pagination.custom-pagination') }}
         </div>
     </div>
+    <!-- Start Card Container -->
 
 </div>
 @endsection
