@@ -2,10 +2,10 @@
 
 // 1. Import Bootstrap (Jika Menggunakan Bootstrap)
 @import 'bootstrap/scss/bootstrap';
-
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 // 2. Variable Warna (Colors)
 // Definisikan variable warna utama, sekunder, aksen, dll.
-$primary: #007bff;
+$primary: #D04D42;
 $secondary: #6c757d;
 $success: #28a745;
 $danger: #dc3545;
@@ -13,29 +13,158 @@ $warning: #ffc107;
 $info: #17a2b8;
 $light: #f8f9fa;
 $dark: #343a40;
+$text :#434343;
 
 $theme-colors: (
-  "primary":    $primary,
-  "secondary":  $secondary,
-  "success":    $success,
-  "danger":     $danger,
-  "warning":    $warning,
-  "info":       $info,
-  "light":      $light,
-  "dark":       $dark
+  "primary": $primary,
+  "secondary": $secondary,
+  "success": $success,
+  "danger": $danger,
+  "warning": $warning,
+  "info": $info,
+  "light": $light,
+  "dark": $dark
 );
 
 
-body{
-    background: E7E7E7 !important;
+
+body {
+  // background: E7E7E7 !important;
+  background: linear-gradient(to bottom, #f0f1f4 0%, #e7e7e5 100%);
+  height: 200vh;
+  font-family: "Inter", serif !important;
+  padding-top: 100px;
+
+  &.dark-mode{
+    background: #333 !important;
+    color: white;
+  }
 }
 
-.welcome{
+.navbar {
+  height: 100px;
+  background-color: rgba(255, 255, 255, 0.1);
+  /* Contoh background semi-transparan */
+  transition: all 0.3s ease-in-out;
+  /* Contoh transisi halus untuk perubahan style */
+  padding-top: 15px;
+  padding-bottom: 15px;
+  box-shadow: none;
+  backdrop-filter: none;
+
+  &.onScroll {
+    background-color: rgba(255, 255, 255, 0.438);
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(40px);
+  }
+
+  .navbarMenu {
+    background: rgba(255, 255, 255, 0.300);
+    border-radius: 50px;
+    height: 51px;
+    padding-top: 3px;
+    padding-left: 3px;
+    padding-right: 3px;
+
+    @media screen and (max-width: 768px) {
+      background: #fff;
+      border-radius: 15px;
+      padding: 10px;
+    }
+
+    li {
+      margin: 0 0px;
+
+      a.nav-link {
+        display: table;
+        background: transparent;
+        padding: 11px 15px;
+        border-radius: 50px;
+
+        &.active {
+          background: $primary;
+          color: white;
+        }
+
+        &:hover {
+          background: $primary;
+          color: white;
+        }
+      }
+    }
+  }
+
+  .navBarRightMenu {
+    li {
+      &.userDropdown {
+
+        a {
+          padding: 0 0 0 15px !important;
+
+          &:hover {
+            padding: 0 0 0 15px !important;
+            color: white;
+          }
+        }
+      }
+
+      a {
+        border-radius: 50px;
+        padding: 0;
+
+        &:hover {
+          border-radius: 50px;
+          background: $primary;
+        }
+
+        &.navIcon {
+          background: rgba(255, 255, 255, 0.400) !important;
+          display: flex;
+          height: 50px !important;
+          width: 50px !important;
+          justify-content: center;
+          align-items: center;
+          margin: 0 5px;
+          color: $text !important;
+
+          &:hover {
+            background: $primary !important;
+            color: white !important;
+          }
+        }
+      }
+    }
+  }
+}
+
+.logoNavbar {
+  border: 1px solid gray;
+  display: flex;
+  justify-items: center;
+  justify-content: center;
+  align-items: center;
+  padding: 0px 20px;
+  height: 48px;
+  border-radius: 50px;
+}
+
+.welcome {
   margin-top: 10em;
 }
+
 .g-gradient {
   font-weight: bold;
   background: -webkit-linear-gradient(#535351, #5D4DD5);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
+}
+
+.select2-container .select2-selection--single {
+  height: 34px !important;
+}
+
+.select2-container--default .select2-selection--single {
+  border: 1px solid #ccc !important;
+  border-radius: 0px !important;
 }

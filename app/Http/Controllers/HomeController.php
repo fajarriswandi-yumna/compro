@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Post; // Import model Post
 use App\Models\User; // Import model User
 use App\Models\Registration; // Import model User
+use App\Models\Client; // Import model Client
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
@@ -36,10 +37,13 @@ class HomeController extends Controller
         // Asumsikan "Total pendaftaran" sama dengan total pengguna (jika berbeda, sesuaikan query)
         $totalRegistrations = Registration::count();
 
+        $totalClients = Client::count();
+
         return view('home', [ // Kirim data ke view 'home' menggunakan array asosiatif
             'totalPosts' => $totalPosts,
             'totalUsers' => $totalUsers,
             'totalRegistrations' => $totalRegistrations,
+            'totalClients' => $totalClients,
         ]);
     }
 }

@@ -21,12 +21,6 @@ class BillController extends Controller
         return view('admin.bills.index', compact('bills'));
     }
 
-    // HAPUS METHOD autocompleteClientName() KARENA TIDAK DIPERLUKAN LAGI
-    // public function autocompleteClientName(Request $request)
-    // {
-    //     // ... (kode autocomplete sebelumnya) ...
-    // }
-
     /**
      * Show the form for creating a new resource.
      */
@@ -34,8 +28,13 @@ class BillController extends Controller
     {
         // AMBIL SEMUA DATA KLIEN DARI DATABASE
         $clients = Client::all();
-        // KIRIM DATA $clients KE VIEW 'admin.bills.create'
-        return view('admin.bills.create', compact('clients'));
+
+        // GENERATE NO_INVOICE OTOMATIS DI METHOD CREATE()
+        $bill = new Bill(); // Buat instance Bill kosong untuk generate no_invoice
+        $no_invoice = $bill->generateNoInvoice(); // Panggil method generateNoInvoice() dari model
+
+        // KIRIM DATA $clients DAN $no_invoice KE VIEW 'admin.bills.create'
+        return view('admin.bills.create', compact('clients', 'no_invoice')); // KIRIM $no_invoice KE VIEW
     }
 
     /**
@@ -45,19 +44,31 @@ class BillController extends Controller
     {
         $request->validate([
             'client_id' => 'required|exists:clients,id',
-            'payment_status' => 'required|in:Unpaid,Paid,Pending',
-            // 'subscribe_type' => 'required|in:Bulanan,Tahunan', // HAPUS validasi subscribe_type
+            'bill_date' => 'required|date', // VALIDASI bill_date
+            'due_date' => 'required|date|after_or_equal:bill_date', // VALIDASI due_date dan pastikan setelah atau sama dengan bill_date
+            'payment_status' => 'required|in:Paid,Not Paid',
             'amount' => 'required|numeric|min:0',
         ]);
 
-        $client = Client::findOrFail($request->client_id);
+        // 1. Buat instance Bill baru (tanpa no_invoice dulu)
+        $bill = new Bill([
+            'client_id' => $request->client_id,
+            'bill_date' => $request->bill_date, // AMBIL bill_date DARI REQUEST
+            'due_date' => $request->due_date, // AMBIL due_date DARI REQUEST
+            'payment_status' => $request->payment_status,
+            'amount' => $request->amount,
+        ]);
 
-        $bill = new Bill();
-        $bill->no_invoice = Bill::generateNoInvoice();
-        $bill->client()->associate($client);
-        // $bill->subscribe_type = $request->subscribe_type; // HAPUS set subscribe_type
-        $bill->payment_status = $request->payment_status;
-        $bill->amount = Bill::calculateAmount($client); // KIRIM OBJEK CLIENT ke calculateAmount()
+        // 2. Simpan Bill ke database untuk mendapatkan ID
+        $bill->save();
+
+        // 3. Generate no_invoice dengan format "INVA-id-bill"
+        $bill_id = $bill->id; // Ambil ID Bill yang baru disimpan
+        // MODIFIKASI FORMAT NO_INVOICE MENGGUNAKAN sprintf()
+        $no_invoice = 'INVA-' . sprintf('%04d', $bill_id);
+
+        // 4. Update Bill dengan no_invoice yang sudah di-generate
+        $bill->no_invoice = $no_invoice;
         $bill->save();
 
         return redirect()->route('admin.bills.index')->with('success', 'Tagihan berhasil ditambahkan.');
@@ -110,11 +121,14 @@ class BillController extends Controller
     {
         $validatedData = $request->validate([
             'client_id' => 'required|exists:clients,id',
-            // 'subscribe_type' => 'required|in:Bulanan,Tahunan', // HAPUS validasi subscribe_type dari sini
+            'bill_date' => 'required|date', // VALIDASI bill_date
+            'due_date' => 'required|date|after_or_equal:bill_date', // VALIDASI due_date dan pastikan setelah atau sama dengan bill_date
             'payment_status' => 'nullable|in:Paid,Not Paid',
+            'amount' => 'nullable|numeric|min:0',
         ]);
 
-        // $validatedData['amount'] = Bill::calculateAmount($validatedData['subscribe_type']); // HAPUS hitung ulang amount berdasarkan subscribe_type di sini
+        // AMBIL SEMUA DATA DARI REQUEST, TERMASUK bill_date DAN due_date
+        $validatedData = $request->all();
 
         $bill->update($validatedData);
 

@@ -33,6 +33,9 @@
                     <dt class="col-sm-3">Institusi</dt>
                     <dd class="col-sm-9">{{ $client->institution }}</dd>
 
+                    <dt class="col-sm-3">Paket Langganan</dt>
+                    <dd class="col-sm-9">{{ $client->subscribe_type }}</dd>
+
                     <dt class="col-sm-3">Status Berlangganan</dt>
                     <dd class="col-sm-9">{{ $client->subscribe_status }}</dd>
 

@@ -14,9 +14,10 @@ class Bill extends Model
     protected $fillable = [
         'no_invoice',
         'client_id',
-        // 'subscribe_type', // HAPUS: subscribe_type sudah dipindahkan ke tabel clients
         'payment_status',
         'amount',
+        'bill_date',
+        'due_date',
     ];
 
     // Relationship dengan model Client (one-to-many, belongsTo)
@@ -25,12 +26,18 @@ class Bill extends Model
         return $this->belongsTo(Client::class);
     }
 
-    // Method untuk membuat nomor invoice otomatis (format INV-idbill)
+    // TAMBAHKAN METHOD generateNoInvoice() DI MODEL Bill.php
     public static function generateNoInvoice()
     {
-        $latestBill = self::latest()->first();
-        $id = $latestBill ? $latestBill->id + 1 : 1;
-        return 'INV-' . str_pad($id, 6, '0', STR_PAD_LEFT); // Format: INV-000001, INV-000002, dst.
+        $prefix = 'INVA';
+        $billCount = Bill::count(); // Ambil jumlah total bill yang sudah ada
+        $nextId = $billCount + 1; // ID selanjutnya adalah jumlah bill + 1
+        // SUFFIX '-bill' DIHAPUS DARI SINI
+        // $suffix = 'bill';
+    
+        // MODIFIKASI FORMAT NO_INVOICE MENGGUNAKAN sprintf() DI SINI (OPSIONAL, BISA JUGA DI CONTROLLER)
+        // return $prefix . '-' . $nextId . '-' . $suffix; // Format awal: INVA-id-bill
+        return $prefix . '-' . sprintf('%04d', $nextId); // Format baru: INVA-0001 (TANPA SUFFIX '-bill', FORMAT 4 DIGIT)
     }
 
     // Method untuk menghitung amount berdasarkan subscribe_type (DIUPDATE untuk mengambil dari Client)
@@ -42,4 +49,7 @@ class Bill extends Model
         }
         return $monthlyPrice; // Harga bulanan jika tipe Bulanan
     }
+
+    // TAMBAHKAN METHOD generateNoInvoice() DI MODEL Bill.php
+    // Method generateNoInvoice sudah ada di atas, tidak perlu ditambahkan lagi.
 }

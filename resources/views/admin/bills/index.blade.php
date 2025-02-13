@@ -24,7 +24,7 @@
                             <th>#</th>
                             <th>No. Invoice</th>
                             <th>Client</th>
-                            <th>Tipe Berlangganan</th>
+                            <th>Paket Langganan</th>
                             <th>Status Pembayaran</th>
                             <th>Total Tagihan</th>
                             <th>Tanggal Dibuat</th>
@@ -36,8 +36,8 @@
                         <tr>
                             <td>{{ $loop->iteration }}</td>
                             <td><a href="{{ route('admin.bills.show', $bill->id) }}">{{ $bill->no_invoice }}</a></td>
-                            <td>{{ $bill->client->full_name }}</td> {{-- Akses nama client melalui relationship --}}
-                            <td>{{ $bill->subscribe_type }}</td>
+                            <td>{{ $bill->client->full_name }}</td>
+                            <td>{{ $bill->client->subscribe_type }}</td>
                             <td>{{ $bill->payment_status }}</td>
                             <td>Rp. {{ number_format($bill->amount, 0, ',', '.') }}</td>
                             <td>{{ $bill->created_at->format('d-m-Y H:i:s') }}</td> <td>

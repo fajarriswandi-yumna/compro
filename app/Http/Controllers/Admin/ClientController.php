@@ -53,6 +53,7 @@ class ClientController extends Controller
             'no_phone' => ['required', 'string', 'max:20', 'phone:ID'], // Validasi nomor telepon Indonesia
             'photo_profile' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'institution' => 'nullable|string|max:255',
+            'subscribe_type' => 'required|in:Bulanan,Tahunan',
             'subscribe_status' => 'required|in:Aktif,Non Aktif',
             'subscription_start_date' => 'nullable|date',
             'subscription_end_date' => 'nullable|date|after_or_equal:subscription_start_date', // End date harus setelah atau sama dengan start date
@@ -103,6 +104,7 @@ class ClientController extends Controller
             'no_phone' => ['required', 'string', 'max:20', 'phone:ID'], // Validasi nomor telepon Indonesia
             'photo_profile' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'institution' => 'nullable|string|max:255',
+            'subscribe_type' => 'required|in:Bulanan,Tahunan',
             'subscribe_status' => 'required|in:Aktif,Non Aktif',
             'subscription_start_date' => 'nullable|date',
             'subscription_end_date' => 'nullable|date|after_or_equal:subscription_start_date', // End date harus setelah atau sama dengan start date

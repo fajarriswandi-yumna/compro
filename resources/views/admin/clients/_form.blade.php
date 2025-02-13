@@ -48,17 +48,31 @@
     <label for="subscribe_status" class="form-label">Status Berlangganan <span class="text-danger">*</span></label>
     <select class="form-select @error('subscribe_status') is-invalid @enderror" id="subscribe_status" name="subscribe_status" required>
         <option value="">Pilih Status</option>
-        <option value="Aktif" {{ old('subscribe_status', isset($client) && $client->subscribe_status == 'Aktif' ? 'selected' : '') }}>Aktif</option>
-        <option value="Non Aktif" {{ old('subscribe_status', isset($client) && $client->subscribe_status == 'Non Aktif' ? 'selected' : '') }}>Non Aktif</option>
+        <option value="Aktif" {{ old('subscribe_status', isset($client) ? $client->subscribe_status : '') == 'Aktif' ? 'selected' : '' }}>Aktif</option>
+        <option value="Non Aktif" {{ old('subscribe_status', isset($client) ? $client->subscribe_status : '') == 'Non Aktif' ? 'selected' : '' }}>Non Aktif</option>
     </select>
     @error('subscribe_status')
     <div class="invalid-feedback">{{ $message }}</div>
     @enderror
 </div>
 
+{{-- TAMBAHKAN INPUT SUBSCRIBE_TYPE DI SINI --}}
+<div class="mb-3">
+    <label for="subscribe_type" class="form-label">Tipe Langganan <span class="text-danger">*</span></label>
+    <select class="form-control @error('subscribe_type') is-invalid @enderror" id="subscribe_type" name="subscribe_type" required>
+        <option value="" selected disabled>-- Pilih Tipe Langganan --</option>
+        <option value="Bulanan" {{ old('subscribe_type', isset($client) ? $client->subscribe_type : '') == 'Bulanan' ? 'selected' : '' }}>Bulanan</option>
+        <option value="Tahunan" {{ old('subscribe_type', isset($client) ? $client->subscribe_type : '') == 'Tahunan' ? 'selected' : '' }}>Tahunan</option>
+    </select>
+    @error('subscribe_type')
+    <div class="invalid-feedback">{{ $message }}</div>
+    @enderror
+</div>
+
 <div class="mb-3">
     <label for="subscription_start_date" class="form-label">Tanggal Mulai Berlangganan</label>
-    <input type="date" class="form-control @error('subscription_start_date') is-invalid @enderror" id="subscription_start_date" name="subscription_start_date" value="{{ old('subscription_start_date', isset($client) ? $client->subscription_start_date : '') }}">
+    <input type="date" class="form-control @error('subscription_start_date') is-invalid @enderror" id="subscription_start_date" name="subscription_start_date"
+           value="{{ old('subscription_start_date', isset($client) && $client->subscription_start_date ? $client->subscription_start_date->format('Y-m-d') : '') }}"> {{-- FORMAT TANGGAL DI SINI --}}
     @error('subscription_start_date')
     <div class="invalid-feedback">{{ $message }}</div>
     @enderror
@@ -66,7 +80,8 @@
 
 <div class="mb-3">
     <label for="subscription_end_date" class="form-label">Tanggal Berakhir Berlangganan</label>
-    <input type="date" class="form-control @error('subscription_end_date') is-invalid @enderror" id="subscription_end_date" name="subscription_end_date" value="{{ old('subscription_end_date', isset($client) ? $client->subscription_end_date : '') }}">
+    <input type="date" class="form-control @error('subscription_end_date') is-invalid @enderror" id="subscription_end_date" name="subscription_end_date"
+           value="{{ old('subscription_end_date', isset($client) && $client->subscription_end_date ? $client->subscription_end_date->format('Y-m-d') : '') }}"> {{-- FORMAT TANGGAL DI SINI --}}
     @error('subscription_end_date')
     <div class="invalid-feedback">{{ $message }}</div>
     @enderror

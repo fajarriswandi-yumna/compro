@@ -23,7 +23,7 @@
                                 <br>
                                 <div class="d-flex">
                                     <iconify-icon icon="solar:user-broken" width="24" height="24"></iconify-icon>
-                                    <p>{{ $totalRegistrations }}</p>  {{-- Ganti dengan variabel totalRegistrations --}}
+                                    <p>{{ $totalClients }}</p>  {{-- Ganti dengan variabel totalClients --}}
                                 </div>
                             </div>
                         </div>

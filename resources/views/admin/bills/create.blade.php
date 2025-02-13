@@ -14,7 +14,8 @@
             <form action="{{ route('admin.bills.store') }}" method="POST">
                 @csrf
 
-                @include('admin.bills._form') {{-- Include partial form --}}
+                {{-- Include partial form _form.blade.php --}}
+                @include('admin.bills._form', ['no_invoice' => $no_invoice])
 
                 <button type="submit" class="btn btn-primary">Simpan Tagihan</button>
                 <a href="{{ route('admin.bills.index') }}" class="btn btn-secondary">Batal</a>

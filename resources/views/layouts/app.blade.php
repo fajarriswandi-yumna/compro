@@ -21,11 +21,12 @@
 </head>
 
 <body>
+
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm fixed-top">
+        <nav class="navbar navbar-expand-md fixed-top">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Aksara') }}
+                <a class="navbar-brand logoNavbar" href="{{ url('/') }}">
+                    <img src="{{ asset('images/logoSmall.png') }}" alt="{{ config('app.name', 'Aksara') }}">
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
@@ -33,23 +34,23 @@
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav me-auto">
-                        <li class="nav-item"><a class="nav-link" href="{{ route('home') }}">Home</a></li>
+                    <ul class="navbar-nav navbarMenu me-auto">
+                        <li><a class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}" href="{{ route('home') }}">Home</a></li>
                         <li class="nav-item dropdown">
-                            <a id="CategoriesDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>Blog</a>
+                            <a id="CategoriesDropdown" class="nav-link dropdown-toggle {{ request()->routeIs('admin.posts.*') || request()->routeIs('admin.categories.*') ? 'active' : '' }}" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>Blog</a>
                             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="CategoriesDropdown">
-                                <a class="dropdown-item" href="{{ route('admin.posts.index') }}">Posts</a>
-                                <a class="dropdown-item" href="{{ route('admin.categories.index') }}">Categories</a>
+                                <a class="dropdown-item {{ request()->routeIs('admin.posts.index') ? 'active' : '' }}" href="{{ route('admin.posts.index') }}">Posts</a>
+                                <a class="dropdown-item {{ request()->routeIs('admin.categories.index') ? 'active' : '' }}" href="{{ route('admin.categories.index') }}">Categories</a>
                             </div>
                         </li>
-                        <li class="nav-item"><a class="nav-link" href="{{ route('admin.users.index') }}">Users</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{{ route('admin.clients.index') }}">Clients</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{{ route('admin.bills.index') }}">Bills</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{{ route('admin.registrations.index') }}">Registrations</a></li>
+                        <li><a class="nav-link {{ request()->routeIs('admin.users.index') ? 'active' : '' }}" href="{{ route('admin.users.index') }}">Users</a></li>
+                        <li><a class="nav-link {{ request()->routeIs('admin.clients.index') ? 'active' : '' }}" href="{{ route('admin.clients.index') }}">Clients</a></li>
+                        <li><a class="nav-link {{ request()->routeIs('admin.bills.index') ? 'active' : '' }}" href="{{ route('admin.bills.index') }}">Bills</a></li>
+                        <!-- <li class="nav-item"><a class="nav-link" href="{{ route('admin.registrations.index') }}">Registrations</a></li> -->
                     </ul>
 
                     <!-- Right Side Of Navbar -->
-                    <ul class="navbar-nav ms-auto">
+                    <ul class="navbar-nav ms-auto navBarRightMenu">
                         <!-- Authentication Links -->
                         @guest
                         @if (Route::has('login'))
@@ -64,9 +65,22 @@
                         </li>
                         @endif -->
                         @else
-                        <li class="nav-item dropdown">
-                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                {{ Auth::user()->name }}
+                        <li class="nav-item">
+                            <a href="" class="nav-link navIcon"><iconify-icon icon="proicons:bell-dot" width="24" height="24"></iconify-icon></a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link navIcon" id="darkModeToggle">
+                                <iconify-icon icon="tdesign:mode-dark" width="24" height="24"></iconify-icon>
+                            </a>
+                        </li>
+
+                        <li class="nav-item dropdown userDropdown">
+                            <a id="navbarDropdown" class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                <span class="">{{ Auth::user()->name }}</span>
+                                <span class="avatar-container">
+                                    <img src="{{ Auth::user()->profile_image_path ? asset('storage/' . Auth::user()->profile_image_path) : asset('images/default-avatar.png') }}"
+                                        class="rounded-circle profile-avatar" alt="{{ Auth::user()->name }}" width="50" height="50">
+                                </span>
                             </a>
 
                             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
@@ -87,9 +101,12 @@
                         </li>
                         @endguest
                     </ul>
+
                 </div>
             </div>
         </nav>
+
+
 
         <main class="py-4">
             @yield('content')
@@ -99,7 +116,54 @@
     <x-forms.tinymce-editor />
     {{-- Script Iconify CDN (sebelum </body>) --}}
     <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const navbar = document.querySelector('.navbar'); // Pilih navbar berdasarkan class 'navbar'
 
+            window.addEventListener('scroll', function() {
+                if (window.scrollY > 50) { // Ubah angka 50 sesuai dengan posisi scroll yang Anda inginkan untuk memicu "onScroll"
+                    navbar.classList.add('onScroll'); // Tambahkan class 'onScroll'
+                } else {
+                    navbar.classList.remove('onScroll'); // Hapus class 'onScroll'
+                }
+            });
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const darkModeToggle = document.getElementById('darkModeToggle'); // Tombol Toggle Dark Mode
+            const body = document.body; // Elemen <body>
+
+            // Fungsi untuk mengaktifkan Dark Mode
+            const enableDarkMode = () => {
+                body.classList.add('dark-mode'); // Tambahkan class 'dark-mode' ke <body>
+                localStorage.setItem('darkModeEnabled', 'true'); // Simpan preferensi di localStorage
+            };
+
+            // Fungsi untuk menonaktifkan Dark Mode
+            const disableDarkMode = () => {
+                body.classList.remove('dark-mode'); // Hapus class 'dark-mode' dari <body>
+                localStorage.setItem('darkModeEnabled', 'false'); // Simpan preferensi di localStorage
+            };
+
+            // Cek preferensi Dark Mode dari localStorage saat halaman di-load
+            if (localStorage.getItem('darkModeEnabled') === 'true') {
+                enableDarkMode(); // Aktifkan dark mode jika preferensi di localStorage true
+            }
+
+            // Event listener untuk tombol toggle dark mode
+            darkModeToggle.addEventListener('click', (event) => {
+                event.preventDefault(); // Mencegah link dari berpindah halaman (karena href="#")
+
+                if (body.classList.contains('dark-mode')) {
+                    disableDarkMode(); // Jika dark mode aktif, nonaktifkan
+                } else {
+                    enableDarkMode(); // Jika dark mode tidak aktif, aktifkan
+                }
+            });
+        });
+    </script>
 </body>
 
 </html>

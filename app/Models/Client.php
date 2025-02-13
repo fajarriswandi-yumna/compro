@@ -31,6 +31,7 @@ class Client extends Model
         'photo_profile',
         'institution',
         'subscribe_type', // Ini diperbaiki dari `subscribe_status`
+        'subscribe_status',
         'subscription_start_date',
         'subscription_end_date',
         'email_verification_token', // <-- TAMBAHKAN BARIS INI: PENTING!!
