@@ -19,7 +19,7 @@ class PostController extends Controller
                 return $query->where('title', 'like', '%' . $search . '%')
                     ->orWhere('content', 'like', '%' . $search . '%');
             })
-            ->paginate(3);
+            ->paginate(10);
 
         return view('admin.posts.index', compact('posts'));
     }

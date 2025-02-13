@@ -19,7 +19,7 @@
 
     <!-- Start Card Container -->
     <div class="card mb-4">
-        <div class="card-header d-flex justify-content-between bg-primary">
+        <div class="card-header d-flex justify-content-between">
             <!-- Search -->
             <div class="mb-0">
                 <form action="{{ route('admin.posts.index') }}" method="GET">
@@ -36,7 +36,7 @@
                 </form>
             </div>
             <a href="{{ route('admin.posts.create') }}" class="btn btn-primary btn-sm mb-0 d-flex justify-content-between align-items-center ps-3 pe-3 text-white">
-                <iconify-icon icon="pepicons-pop:plus" width="20" height="20"></iconify-icon> <span>Tambah Postingan</span>
+                <iconify-icon icon="pepicons-pop:plus" width="20" height="20"></iconify-icon> <span>Create Post</span>
             </a>
         </div>
         <div class="card-body">
@@ -52,6 +52,7 @@
                         <tr>
                             <th>#</th>
                             <th colspan="2">Judul</th>
+                            <th>Visibility</th>
                             <th>Kategori</th>
                             <th>Aksi</th>
                         </tr>
@@ -68,6 +69,13 @@
                                 @endif
                             </td>
                             <td>{{ $post->title }}</td>
+                            <td>
+                                @if($post->is_published)
+                                <span class="badge bg-success">Dipublikasikan</span>
+                                @else
+                                <span class="badge bg-warning text-dark">Draft</span>
+                                @endif
+                            </td>
                             <td>{{ $post->category->name }}</td>
                             <td>
                                 <!-- Action Button Group -->
@@ -88,7 +96,7 @@
                                                 @method('DELETE')
                                                 <a type="submit" class="dropdown-item btn-sm" onclick="return confirm('Apakah Anda yakin ingin menghapus postingan ini?')">
                                                     <i class="fas fa-trash"></i> Hapus
-</a>
+                                                </a>
                                             </form>
                                         </li>
                                     </ul>

@@ -30,7 +30,7 @@ $theme-colors: (
 body {
   // General body styles - Declarations moved to the top
   background: linear-gradient(to bottom, #f0f1f4 0%, #e7e7e5 100%);
-  height: 200vh;
+  min-height: 100vh;
   font-family: "Inter", serif !important;
   padding-top: 100px;
   color: $text !important;
