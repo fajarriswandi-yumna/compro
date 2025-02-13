@@ -1,8 +1,9 @@
-// resources/sass/theme.scss
+// resources/sass/_theme.scss
 
 // 1. Import Bootstrap (Jika Menggunakan Bootstrap)
 @import 'bootstrap/scss/bootstrap';
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
 // 2. Variable Warna (Colors)
 // Definisikan variable warna utama, sekunder, aksen, dll.
 $primary: #D04D42;
@@ -27,37 +28,40 @@ $theme-colors: (
 );
 
 body {
-  // background: E7E7E7 !important;
+  // General body styles - Declarations moved to the top
   background: linear-gradient(to bottom, #f0f1f4 0%, #e7e7e5 100%);
   height: 200vh;
   font-family: "Inter", serif !important;
   padding-top: 100px;
   color: $text !important;
+  transition: background-color 0.3s ease, color 0.3s ease; // Added transition here
 
   &.dark-mode {
+    // Dark mode specific styles - Declarations moved to the top
     background: #333 !important;
     color: white !important;
   }
 }
 
 .navbar {
+  // General navbar styles - Declarations moved to the top
   height: 100px;
   background-color: rgba(255, 255, 255, 0.1);
-  /* Contoh background semi-transparan */
   transition: all 0.3s ease-in-out;
-  /* Contoh transisi halus untuk perubahan style */
   padding-top: 15px;
   padding-bottom: 15px;
   box-shadow: none;
   backdrop-filter: none;
 
   &.onScroll {
+    // Navbar onScroll styles - Declarations moved to the top
     background-color: rgba(255, 255, 255, 0.438);
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
     backdrop-filter: blur(40px);
   }
 
   .navbarMenu {
+    // navbarMenu styles - Declarations moved to the top
     background: rgba(255, 255, 255, 0.300);
     border-radius: 50px;
     height: 51px;
@@ -66,6 +70,7 @@ body {
     padding-right: 3px;
 
     @media screen and (max-width: 768px) {
+      // Media query styles - Declarations moved to the top
       background: #fff;
       border-radius: 15px;
       padding: 10px;
@@ -75,6 +80,7 @@ body {
       margin: 0 0px;
 
       a.nav-link {
+        // navbarMenu li a.nav-link styles - Declarations moved to the top
         display: table;
         background: transparent;
         padding: 11px 15px;
@@ -96,7 +102,6 @@ body {
   .navBarRightMenu {
     li {
       &.userDropdown {
-
         a {
           padding: 0 0 0 15px !important;
 
@@ -108,6 +113,7 @@ body {
       }
 
       a {
+        // navBarRightMenu li a styles - Declarations moved to the top
         border-radius: 50px;
         padding: 0;
 
@@ -117,6 +123,7 @@ body {
         }
 
         &.navIcon {
+          // navBarRightMenu li a.navIcon styles - Declarations moved to the top
           background: rgba(255, 255, 255, 0.400) !important;
           display: flex;
           height: 50px !important;
@@ -137,6 +144,7 @@ body {
 }
 
 .logoNavbar {
+  // logoNavbar styles - Declarations moved to the top
   border: 1px solid gray;
   display: flex;
   justify-items: center;
@@ -148,10 +156,12 @@ body {
 }
 
 .welcome {
+  // welcome styles - Declarations moved to the top
   margin-top: 10em;
 }
 
 .g-gradient {
+  // g-gradient styles - Declarations moved to the top
   font-weight: bold;
   background: -webkit-linear-gradient(#535351, #5D4DD5);
   -webkit-background-clip: text;
@@ -159,22 +169,29 @@ body {
   -webkit-text-fill-color: transparent;
 }
 
-.select2-container .select2-selection--single {
-  height: 34px !important;
+.select2-container {
+  .select2-selection--single {
+    // select2-container .select2-selection--single styles - Declarations moved to the top
+    height: 34px !important;
+  }
 }
 
-.select2-container--default .select2-selection--single {
-  border: 1px solid #ccc !important;
-  border-radius: 0px !important;
+.select2-container--default {
+  .select2-selection--single {
+    // select2-container--default .select2-selection--single styles - Declarations moved to the top
+    border: 1px solid #ccc !important;
+    border-radius: 0px !important;
+  }
 }
 
 .card {
+  // card styles - Declarations moved to the top
   border-radius: 20px !important;
-  // box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
   border-color: transparent !important;
   background: rgba(255, 255, 255, 0.500);
 
   .card-header {
+    // card .card-header styles - Declarations moved to the top
     border-top-left-radius: 20px !important;
     border-top-right-radius: 20px !important;
     border-color: transparent !important;
@@ -183,12 +200,14 @@ body {
   }
 
   .card-body {
+    // card .card-body styles - Declarations moved to the top
     background: rgba(255, 255, 255, 0.800);
     border-radius: 20px !important;
     padding: 25px;
   }
 
   .card-footer {
+    // card .card-footer styles - Declarations moved to the top
     border-bottom-left-radius: 20px !important;
     border-bottom-right-radius: 20px !important;
     border-color: transparent !important;
@@ -198,34 +217,112 @@ body {
 }
 
 input {
+  // input styles - Declarations moved to the top
   border-radius: 50px !important;
 }
 
 .input-group {
   .input-group-text {
+    // input-group .input-group-text styles - Declarations moved to the top
     display: flex;
     align-items: center;
     justify-content: center;
-    // background: orange;
     border-top-left-radius: 50px;
     border-bottom-left-radius: 50px;
     border-right-color: transparent !important;
-    
   }
 
-  .group-text{
-    // background: red !important;
+  .group-text {
+    // input-group .group-text styles - Declarations moved to the top
     border-top-left-radius: 0px !important;
     border-bottom-left-radius: 0px !important;
     border-left-color: transparent !important;
   }
 
   .btn {
+    // input-group .btn styles - Declarations moved to the top
     border-radius: 50px !important;
     margin: 0 5px;
   }
 }
 
+.btn {
+  // btn styles - Declarations moved to the top
+  border-radius: 50px !important;
+}
+
 .titlePage {
+  // titlePage styles - Declarations moved to the top
   font-weight: normal !important;
+}
+
+// Table Styles
+.table {
+  border-color: transparent !important;
+
+  thead {
+    border-color: transparent !important;
+    background: transparent !important;
+    tr:first-child {
+
+      /* Target baris pertama di dalam thead */
+      th:first-child {
+        /* Target th pertama di baris pertama */
+        border-top-left-radius: 15px !important;
+      }
+
+      th:last-child {
+        /* Target th terakhir di baris pertama */
+        border-top-right-radius: 15px !important;
+      }
+    }
+
+    tr {
+      border-bottom: 2px dotted #dadada !important;
+      background: transparent !important;
+      th {
+        color: $text;
+        font-weight: normal !important;
+        padding-top: 15px;
+        padding-bottom: 15px;
+        background: transparent !important;
+      }
+    }
+  }
+
+  tbody{
+    tr{
+      td{
+        padding-top: 15px;
+        padding-bottom: 15px;
+        background: transparent !important;
+        color: $text;
+      }
+    }
+  }
+
+}
+
+.btn-group{
+  color: $text !important;
+  ul{
+    li{
+      a{
+        color: $text !important;
+      }
+    }
+  }
+}
+
+.dropdown-menu{
+  border-radius: 10px !important;
+  // border-color: transparent !important;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+}
+
+.avatarImage{
+  height: 40px;
+  width: 40px;
+  border-radius: 50px;
+  object-fit: cover;
 }

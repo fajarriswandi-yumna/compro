@@ -19,9 +19,9 @@
 
     <!-- Start Card Container -->
     <div class="card mb-4">
-        <div class="card-header d-flex justify-content-between">
+        <div class="card-header d-flex justify-content-between bg-primary">
             <!-- Search -->
-            <div class="mb-3">
+            <div class="mb-0">
                 <form action="{{ route('admin.posts.index') }}" method="GET">
                     <div class="input-group">
                         <span class="input-group-text" id="search-icon">
@@ -35,8 +35,8 @@
                     </div>
                 </form>
             </div>
-            <a href="{{ route('admin.posts.create') }}" class="btn btn-primary btn-sm mb-3">
-                <i class="fas fa-plus"></i> Tambah Postingan
+            <a href="{{ route('admin.posts.create') }}" class="btn btn-primary btn-sm mb-0 d-flex justify-content-between align-items-center ps-3 pe-3 text-white">
+                <iconify-icon icon="pepicons-pop:plus" width="20" height="20"></iconify-icon> <span>Tambah Postingan</span>
             </a>
         </div>
         <div class="card-body">
@@ -46,60 +46,55 @@
             </div>
             @endif
 
-
-
             <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <table class="table align-middle table-striped1 table-hover table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>Judul</th>
+                            <th colspan="2">Judul</th>
                             <th>Kategori</th>
-                            <th>Gambar Unggulan</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
-                    <tfoot>
-                        <tr>
-                            <th>#</th>
-                            <th>Judul</th>
-                            <th>Kategori</th>
-                            <th>Gambar Unggulan</th>
-                            <th>Aksi</th>
-                        </tr>
-                    </tfoot>
                     <tbody>
                         @forelse ($posts as $post)
                         <tr>
                             <td>{{ $loop->iteration }}</td>
+                            <td>
+                                @if($post->featured_image_path)
+                                <img class="avatarImage" src="{{ asset('storage/' . $post->featured_image_path) }}" alt="Gambar Unggulan" width="100">
+                                @else
+                                <img class="avatarImage" src="{{ asset('images/emptyImage.png') }}" alt="Feature Image">
+                                @endif
+                            </td>
                             <td>{{ $post->title }}</td>
                             <td>{{ $post->category->name }}</td>
                             <td>
-                                @if($post->featured_image_path)
-                                <img src="{{ asset('storage/' . $post->featured_image_path) }}" alt="Gambar Unggulan" width="100">
-                                @else
-                                -
-                                @endif
-                            </td>
-                            <td>
-                                <!-- <a href="{{ route('admin.posts.show', $post->slug) }}" class="btn btn-info btn-sm">
-                                    <i class="fas fa-eye"></i> Detail
-                                </a> -->
-
-                                <a href="{{ route('admin.posts.detail', $post->id) }}" class="btn btn-info btn-sm">
-                                    <i class="fas fa-eye"></i> Detail
-                                </a>
-
-                                <a href="{{ route('admin.posts.edit', $post) }}" class="btn btn-warning btn-sm">
-                                    <i class="fas fa-edit"></i> Edit
-                                </a>
-                                <form action="{{ route('admin.posts.destroy', $post->id) }}" method="POST" class="d-inline">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin ingin menghapus postingan ini?')">
-                                        <i class="fas fa-trash"></i> Hapus
+                                <!-- Action Button Group -->
+                                <div class="btn-group">
+                                    <button class="btn btn-sm" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <iconify-icon icon="pepicons-pencil:dots-x" width="20" height="20"></iconify-icon>
                                     </button>
-                                </form>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" href="{{ route('admin.posts.edit', $post) }}"><i class="fas fa-edit"></i> Edit</a></li>
+                                        <li><a class="dropdown-item" href="{{ route('admin.posts.detail', $post->id) }}"><i class="fas fa-eye"></i> View</a></li>
+                                        <li>
+                                            <hr class="dropdown-divider">
+                                        </li>
+                                        <li>
+                                            <!-- <a class="dropdown-item" href="#"><i class="fas fa-trash"></i> Delete</a> -->
+                                            <form action="{{ route('admin.posts.destroy', $post->id) }}" method="POST" class="d-inline">
+                                                @csrf
+                                                @method('DELETE')
+                                                <a type="submit" class="dropdown-item btn-sm" onclick="return confirm('Apakah Anda yakin ingin menghapus postingan ini?')">
+                                                    <i class="fas fa-trash"></i> Hapus
+</a>
+                                            </form>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <!-- Action Button Group -->
+
                             </td>
                         </tr>
                         @empty

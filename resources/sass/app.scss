@@ -3,9 +3,9 @@
 
 // Variables
 @import 'variables';
+
+// Theme (Your custom theme, potentially overriding Bootstrap variables)
 @import 'theme';
 
-// Bootstrap
+// Bootstrap - Import Bootstrap last
 @import 'bootstrap/scss/bootstrap';
-
-
