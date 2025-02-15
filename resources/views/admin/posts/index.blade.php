@@ -10,8 +10,8 @@
     </div>
 
     <!-- <div class="mt-5 mb-5">
-        <div class="card">
-            <div class="card-header">Header</div>
+        <div class="card mb-4">
+            <div class="card-header card-header d-flex justify-content-between">Header</div>
             <div class="card-body">Body</div>
             <div class="card-footer">Footer</div>
         </div>
