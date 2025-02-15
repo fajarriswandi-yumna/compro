@@ -199,6 +199,27 @@ body {
     padding: 25px;
   }
 
+  .cardHeaderPrimary{
+    background: $primary !important;
+    color: white !important;  
+    position: relative;
+    // margin-bottom: 60px;
+    padding-bottom: 50px;
+
+    .headerProfile{
+      // background: lightblue;
+      min-height: 100px;
+      margin-top: 20px;
+      margin-bottom: -100px;
+      img{
+        width: 100px;
+        height: 100px;
+        object-fit: cover;
+        border: 5px solid white;
+      }
+    }
+  }
+
   .card-body {
     // card .card-body styles - Declarations moved to the top
     background: rgba(255, 255, 255, 0.800);
