@@ -52,17 +52,17 @@
                                 <td>{{ $user->role }}</td>
 
                                 <td>
-                                    <a href="{{ route('admin.users.show', $user->id) }}" class="btn btn-info btn-sm">
+                                    <a href="{{ route('admin.users.show', $user->id) }}" class="btn btn-outline-secondary btn-sm">
                                         <i class="fas fa-eye"></i> Detail
                                     </a>
-                                    <a href="{{ route('admin.users.edit', $user->id) }}" class="btn btn-warning btn-sm">
+                                    <a href="{{ route('admin.users.edit', $user->id) }}" class="btn btn-outline-secondary btn-sm">
                                         <i class="fas fa-edit"></i> Edit
                                     </a>
                                     <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST" class="d-inline">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin ingin menghapus user admin ini?')">
-                                            <i class="fas fa-trash"></i> Hapus
+                                        <button type="submit" class="btn btn-outline-secondary btn-sm" onclick="return confirm('Apakah Anda yakin ingin menghapus user admin ini?')">
+                                            <i class="fas fa-trash"></i> Delete
                                         </button>
                                     </form>
                                 </td>

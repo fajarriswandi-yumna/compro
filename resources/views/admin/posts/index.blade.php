@@ -39,7 +39,7 @@
                 <iconify-icon icon="pepicons-pop:plus" width="20" height="20"></iconify-icon> <span>Create Post</span>
             </a>
         </div>
-        <div class="card-body">
+        <div class="card-body vh-100">
             @if(session('success'))
             <div class="alert alert-success">
                 {{ session('success') }}
@@ -51,17 +51,17 @@
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th colspan="2">Judul</th>
+                            <th colspan="2">Title</th>
                             <th>Visibility</th>
-                            <th>Kategori</th>
-                            <th>Aksi</th>
+                            <th>Category</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         @forelse ($posts as $post)
                         <tr>
                             <td>{{ $loop->iteration }}</td>
-                            <td>
+                            <td class="text-center">
                                 @if($post->featured_image_path)
                                 <img class="avatarImage" src="{{ asset('storage/' . $post->featured_image_path) }}" alt="Gambar Unggulan" width="100">
                                 @else

@@ -3,24 +3,29 @@
 @section('title', 'Edit Client')
 
 @section('content')
-    <div class="container-fluid">
-        <h1 class="h3 mb-4 text-gray-800">Edit Client</h1>
+    <div class="container">
+        <form action="{{ route('admin.clients.update', $client->id) }}" method="POST" enctype="multipart/form-data">
+            @csrf
+            @method('PUT')
 
-        <div class="card shadow mb-4">
-            <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Formulir Edit Client</h6>
-            </div>
-            <div class="card-body">
-                <form action="{{ route('admin.clients.update', $client->id) }}" method="POST" enctype="multipart/form-data">
-                    @csrf
-                    @method('PUT')
+            <h1 class="titlePage ">Add Client</h1>
+
+            <div class="card shadow mb-4">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h6 class="m-0">Edit data Client</h6>
+                    <div>
+                        <a href="{{ route('admin.clients.index') }}" class="btn btn-outline-secondary">Cancel</a>
+                        <button type="submit" class="btn btn-primary text-white">Update</button>
+                    </div>
+                </div>
+
+                <div class="card-body">
+
 
                     @include('admin.clients._form', compact('client')) {{-- INCLUDE _form.blade.php DAN KIRIM DATA $client --}}
 
-                    <button type="submit" class="btn btn-primary">Update Client</button>
-                    <a href="{{ route('admin.clients.index') }}" class="btn btn-secondary">Batal</a>
-                </form>
-            </div>
-        </div>
+        </form>
+    </div>
+    </div>
     </div>
 @endsection
