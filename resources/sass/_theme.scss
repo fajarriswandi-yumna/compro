@@ -237,6 +237,11 @@ body {
   }
 }
 
+.bgPrimary{
+  background: $primary !important;
+  color: white !important;
+}
+
 input {
   // input styles - Declarations moved to the top
   border-radius: 50px !important;

@@ -15,11 +15,26 @@ class BillController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $bills = Bill::with('client')->latest()->paginate(10);
+        $search = $request->input('search'); // Ambil kata kunci pencarian dari request
+
+        $bills = Bill::latest()
+            ->with('client') // Eager load relasi 'client' agar lebih efisien
+            ->when($search, function ($query, $search) { // Kondisi pencarian jika $search tidak kosong
+                return $query->where('no_invoice', 'like', '%' . $search . '%')
+                    ->orWhere('client_id', 'like', '%' . $search . '%')
+                    // Tambahkan pencarian berdasarkan nama client melalui relasi 'client'
+                    ->orWhereHas('client', function ($query) use ($search) {
+                        $query->where('full_name', 'like', '%' . $search . '%');
+                    });
+            })
+            ->paginate(3);
+
         return view('admin.bills.index', compact('bills'));
     }
+
+
 
     /**
      * Show the form for creating a new resource.
